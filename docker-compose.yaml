@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  webhook:
+    build: .
+    ports:
+      - "7001:7001"
+    command: ./webhook
