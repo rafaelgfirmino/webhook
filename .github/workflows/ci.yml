@@ -5,11 +5,34 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    
-jobs:
-  build:
-    runs-on: ubuntu-latest
 
+jobs:
+  test_compile_rest_application:
+    name: Check create rest bin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go mod tidy
+        
+      - name: Build image
+        run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o webhook adapters/rest/*.go
+
+  test_compile_docker_image:
+    name: Check create Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: create image docker
+        run: make docker-build
+
+  running_all_tests:
+    name: Running tests
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Setup Go
@@ -18,10 +41,7 @@ jobs:
           go-version: '1.21.x'
 
       - name: Install dependencies
-        run: go mod  tidy
+        run: go mod tidy
 
-      - name: Build
-        run: make build
-
-      - name: Test with the Go CLI
+      - name: run test 
         run: make test
