@@ -1,6 +1,8 @@
 # Webhook
 ### Webhooks is common to use in the microservices architecture, this is a simple example of how to use it.
 
+![Main](https://github.com/rafaelgfirmino/webkook/actions/workflows/ci.yml/badge.svg?branch=main)
+
 ### This repository is for only me to consolidate my knowledge of the concepts about Golang, best practices, design patterns, DevOps, and Observability.....
 What I expect to learn with this project:
 - Improve concepts about GO:
