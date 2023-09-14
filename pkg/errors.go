@@ -1,27 +1,15 @@
 package pkg
 
-type GenericError struct {
-	Code    ErrorCode
-	Message string
+type WebhookError struct {
+	StatusCode int
+	Status     string
+	Reason     string
 }
 
-type CustomError struct {
-	GenericError
+// Error returns the error message.
+func (e WebhookError) Error() string {
+	if e.Reason != "" {
+		return e.Reason
+	}
+	return "Webhooks Error"
 }
-
-func NewCustomError(code ErrorCode, msg string) *CustomError {
-	return &CustomError{GenericError{
-		Code:    code,
-		Message: msg,
-	}}
-}
-
-func (e *CustomError) Error() string {
-	return e.Message
-}
-
-type ErrorCode uint8
-
-const (
-	PreconditionFailed ErrorCode = iota
-)

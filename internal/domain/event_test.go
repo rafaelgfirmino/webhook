@@ -3,7 +3,6 @@ package domain
 import (
 	"testing"
 
-	"github.com/firmino/webhook/pkg"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,13 +17,13 @@ func TestNewEvent(t *testing.T) {
 			name:          "Invalid Name",
 			input:         Event{Name: "", Description: "Teste"},
 			expected:      Event{Name: "", Description: "Teste"},
-			expectedError: pkg.NewCustomError(pkg.PreconditionFailed, ErrorEventNameIsRequired),
+			expectedError: ErrorEventNameIsRequired,
 		},
 		{
 			name:          "Invalid Description",
 			input:         Event{Name: "Teste", Description: ""},
 			expected:      Event{Name: "Teste", Description: ""},
-			expectedError: pkg.NewCustomError(pkg.PreconditionFailed, ErrorEventDescriptionIsRequired),
+			expectedError: ErrorEventDescriptionIsRequired,
 		},
 		{
 			name:          "Valid Event",

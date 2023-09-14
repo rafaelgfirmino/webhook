@@ -5,8 +5,19 @@ import (
 	"github.com/google/uuid"
 )
 
-const ErrorEventNameIsRequired = "Field Name is required"
-const ErrorEventDescriptionIsRequired = "Field Description is required"
+var (
+	ErrorEventNameIsRequired = pkg.WebhookError{
+		Reason:     "Field Name is required",
+		StatusCode: 412,
+		Status:     "Precondition Failed",
+	}
+
+	ErrorEventDescriptionIsRequired = pkg.WebhookError{
+		Reason:     "Field Description is required",
+		StatusCode: 412,
+		Status:     "Field Name is required",
+	}
+)
 
 type Event struct {
 	Id          uuid.UUID `json:"id"`
@@ -22,10 +33,10 @@ func NewEvent(name string, description string) (Event, error) {
 
 func (e *Event) validate() error {
 	if e.Name == "" {
-		return pkg.NewCustomError(pkg.PreconditionFailed, ErrorEventNameIsRequired)
+		return ErrorEventNameIsRequired
 	}
 	if e.Description == "" {
-		return pkg.NewCustomError(pkg.PreconditionFailed, ErrorEventDescriptionIsRequired)
+		return ErrorEventDescriptionIsRequired
 	}
 	return nil
 }
